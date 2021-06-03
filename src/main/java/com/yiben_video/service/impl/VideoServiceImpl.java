@@ -1,10 +1,11 @@
 package com.yiben_video.service.impl;
 
-import com.alibaba.fastjson.JSONObject;
 import com.yiben_video.common.Result;
 import com.yiben_video.common.ResultEnum;
 import com.yiben_video.pojo.VideoEntity;
 import com.yiben_video.service.VideoService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,6 +19,10 @@ import java.util.stream.Collectors;
 @Service
 public class VideoServiceImpl extends BaseServiceImpl implements VideoService {
     Result result = new Result();
+    /**
+     * 查找数据库视频，取出所有id放入集合
+     * @return
+     */
     private List<Integer> get() {
         List<VideoEntity> user = videoDao.findAll();
         List<Integer> videoID = user.stream().map(VideoEntity::getId).collect(Collectors.toList());
@@ -45,10 +50,27 @@ public class VideoServiceImpl extends BaseServiceImpl implements VideoService {
     }
 
     @Override
-    public String allVideo() {
+    public List<VideoEntity> allVideo() {
         List<VideoEntity> list = videoDao.findAll();
-        String l = JSONObject.toJSONString(list);
-        return l;
+        return list;
+    }
+
+    @Override
+    public Result getAllVideo(Integer pn, Integer size) {
+
+        PageRequest pageRequest =PageRequest.of(pn-1 ,size);
+        Page all = videoDao.findAll(pageRequest);
+        if (pn-1 >all.getTotalPages()){
+            return result.error(ResultEnum.ERROR_INQUIRE);
+        }else{
+            return result.success(ResultEnum.SUCCESS_INQUIRE,all);
+        }
+
+    }
+
+    @Override
+    public Result deleteVideoId(Integer id) {
+        return null;
     }
 
 

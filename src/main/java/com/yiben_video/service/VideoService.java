@@ -17,5 +17,10 @@ public interface VideoService {
     void saveVideo(VideoEntity videoEntity1);
 
 
-    String allVideo();
+    List<VideoEntity> allVideo();
+
+
+    Result getAllVideo(Integer pn, Integer size);
+
+    Result deleteVideoId(Integer id);
 }

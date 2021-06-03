@@ -1,5 +1,6 @@
 package com.yiben_video.service;
 
+import com.yiben_video.common.Result;
 import com.yiben_video.pojo.UserEntity;
 
 import java.util.List;
@@ -11,4 +12,5 @@ import java.util.List;
  */
 public interface UserService {
     List<UserEntity> listUser();
+
 }

@@ -37,6 +37,12 @@ public class VideoController extends BaseController{
         return idVideo;
     }
 
+    /**
+     * 新增视频
+     * 现在还没做上传功能，都是对象直接存到数据库，在所有功能做完后在做上传
+     * @param videoEntity
+     * @return
+     */
     @PostMapping("/saveVideo")
     public Result saveVideo(
             VideoEntity videoEntity
@@ -50,10 +56,28 @@ public class VideoController extends BaseController{
 
     }
 
+    /**
+     * 分页查询所有的视频
+     * @param pn
+     * @param size
+     * @return
+     */
     @GetMapping("/allVideo")
-    public Result allVideo(){
-        System.out.println(videoService.allVideo());
-        return result.success(ResultEnum.SUCCESS,videoService.allVideo());
+    public Result allVideo(@RequestParam() Integer pn,
+                           @RequestParam() Integer size){
+        System.out.println(pn +"   " + size);
+        if (pn<=0 || size ==0){
+            return result.error(ResultEnum.ERROR_INQUIRE);
+        }else {
+            result = videoService.getAllVideo(pn,size);
+            System.out.println(result);
+            return result;
+        }
+    }
+    @DeleteMapping("/{id}")
+    public Result deleteVideoId(@PathVariable Integer id){
+        Result ok = videoService.deleteVideoId(id);
+        return ok;
     }
 
 }

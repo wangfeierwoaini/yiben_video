@@ -36,6 +36,9 @@ public class VideoController extends BaseController{
         Result idVideo = videoService.getFindOneVideo(id);
         return idVideo;
     }
+    /**
+     * 删除视频
+     */
 
     /**
      * 新增视频
